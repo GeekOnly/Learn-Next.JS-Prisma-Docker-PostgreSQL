@@ -4,10 +4,18 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const Create = () => {
+    const [title, setTitle] = useState('')
+    const [content, setContent] = useState('')
+
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        console.log('title', title)
+        console.log('content', content)
+    }
  return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold mb-6">Create a New Post</h1>
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label
             htmlFor="title"
@@ -19,6 +27,9 @@ const Create = () => {
             type="text"
             name="title"
             id="title"
+            value={title}
+            onChange={(e) => { setTitle(e.target.value)}}
+            required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
@@ -34,6 +45,8 @@ const Create = () => {
             id="content"
             required
             rows={4}
+            value={content}
+            onChange={(e) => { setContent(e.target.value)}}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           ></textarea>
         </div>
