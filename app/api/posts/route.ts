@@ -9,13 +9,22 @@ export async function GET(request: NextRequest) {
     const category     = searchParams.get('category')
     const sort         = searchParams.get('sort') || 'desc'
 
-    const posts = await prisma.post.findMany({
-        where: {
-            title: {
-                contains: search,
-                mode: 'insensitive',
-            }
+    let whereCondition = category 
+     ? {
+        category,
+        title:{
+            contains: search,
+            mode: 'insensitive',
         },
+    }:{
+        title:{
+            contains: search,
+            mode: 'insensitive',  
+        },
+    }
+
+    const posts = await prisma.post.findMany({
+        where: whereCondition as any,
         orderBy:{
             createdAt: sort,
         } as any,
