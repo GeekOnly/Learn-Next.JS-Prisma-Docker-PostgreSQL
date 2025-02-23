@@ -2,15 +2,25 @@
 
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 const Create = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const router = useRouter()
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        console.log('title', title)
-        console.log('content', content)
+        try {
+            await axios.post('/api/posts', {
+                title,
+                content
+            })
+            router.push('/')
+        } catch (error) {
+            console.log('error',error)
+            alert('something went wrong')
+        }
     }
  return (
     <div className="max-w-4xl mx-auto px-4 py-8">
