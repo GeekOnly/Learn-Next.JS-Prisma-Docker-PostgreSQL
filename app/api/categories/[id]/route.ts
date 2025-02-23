@@ -3,32 +3,17 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 
-export async function GET(
-    request: Request,
-    { params} : { params: {id : string}}
-){
-    const postId = Number(params.id)
-    const post = await prisma.post.findUnique({
-        where: {
-            id: postId
-        }
-    })
-    return Response.json(post)
-}
-
 export async function PUT(
     request: Request,
     { params} : { params: {id : string}}
 ) {
     try {
-        const {title, content, category } = await request.json()
-        const postId = Number(params.id)
-
-        const updatePost = await prisma.post.update({
-            where: { id : postId},
-            data: { title, content, category}
+        const { name } = await request.json()
+        const category = await prisma.category.update({
+            where: { id: Number(params.id) },
+            data: { name },
         })
-        return Response.json(updatePost)   
+        return Response.json(category)
     } catch (error) {
         return new Response(error as BodyInit, { status: 500,})
     }
@@ -39,12 +24,13 @@ export async function DELETE(
     { params} : { params: {id : string}}
 ) {
     try {
-        const postId = Number(params.id)
-        const deletedPost = await prisma.post.delete({
-            where: { id: postId}
-        })
-        return Response.json(deletedPost)
+        return Response.json(
+            await prisma.category.delete({
+                where: { id: Number(params.id) },
+            })
+        )
     } catch (error) {
-        return new Response(error as BodyInit, { status: 500,})
+        return new Response(error as BodyInit, { 
+            status: 500,})
     }
 }
