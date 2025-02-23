@@ -21,6 +21,16 @@ export default function Home() {
     }
   }
 
+  const deletePost = async (id: Number) => {
+    try {
+      await axios.delete(`/api/posts/${id}`)
+      alert('Delete Successful!')
+      fetchPosts()
+    } catch (error) {
+      console.log('error',error)
+    }
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold mb-6">Blog Posts</h1>
@@ -42,7 +52,7 @@ export default function Home() {
               </th>
             </tr>
           </thead>
-          
+
           <tbody className="bg-white divide-y divide-gray-200">
             {posts.map((post: any) => (
               <tr key={post.id}>
@@ -59,6 +69,7 @@ export default function Home() {
                     Edit
                   </Link>
                   <button
+                    onClick={() => deletePost(post.id)}
                     className="text-red-600 hover:text-red-900"
                   >
                     Delete
