@@ -89,7 +89,8 @@ docker-compose up -d
 
 ## **3. PostgreSQL Setup**
 
-![image.png](attachment:833f8ef1-2e5a-4bff-a4eb-e74f5e7b234a:image.png)
+![XP112i8m44NtESMGhVG2Kcf54OgRWdg0q0urq4uqcIwAU7V74fEbMKt-8u-VgGCRp_CqAYIsl80-6CR1-KM32T352xmKoDc0xM4B3J6KPNkkgfYIcL3o2tjBWw0RsUUCWjygULiNU7K-PFZZanTZ5iQmSyGYI_4kvh-EJLQTighpABpViy2ZJ5SxuRTM-bbHkBMIS7qtGQiQgPU5V000](https://github.com/user-attachments/assets/d4496433-8420-46fd-9ec8-fef8609913a4)
+
 
 - **สร้างเซิร์ฟเวอร์ใหม่**:
     - เมื่อเข้าสู่ pgAdmin แล้ว คลิกขวาที่ **"Servers"** ในแถบด้านซ้าย
