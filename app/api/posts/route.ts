@@ -28,6 +28,9 @@ export async function GET(request: NextRequest) {
         orderBy:{
             createdAt: sort,
         } as any,
+        include:{ 
+            category: true,
+        }
     })
     return Response.json(posts)
 }
