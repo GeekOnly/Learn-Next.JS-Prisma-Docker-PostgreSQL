@@ -34,12 +34,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: Request) {
     try {
-        const { title, content , category } = await request.json()
+        const { title, content , categoryId } = await request.json()
         const newPost = await prisma.post.create({
             data:{
                 title,
                 content,
-                category,
+                categoryId: Number(categoryId),
             },
         })
         return Response.json(newPost)
