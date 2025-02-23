@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn Next.js + Prisma + Docker + PostgreSQL
 
-## Getting Started
+## 🚀 Introduction
+This project demonstrates how to use **Next.js** with **Prisma** as an ORM, **Docker** for containerization, and **PostgreSQL** as the database.
 
-First, run the development server:
+## 📦 Technologies Used
+- **Next.js** (React framework for SSR & API routes)
+- **Prisma** (ORM for PostgreSQL)
+- **Docker** (Containerization)
+- **PostgreSQL** (Relational database)
 
+---
+
+## 🔧 Installation & Setup
+
+### 1️⃣ Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/GeekOnly/Learn-Next.JS-Prisma-Docker-PostgreSQL.git
+cd Learn-Next.JS-Prisma-Docker-PostgreSQL
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2️⃣ Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3️⃣ Configure Environment Variables
+Create a `.env` file and add the following:
+```ini
+DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase"
+NEXTAUTH_SECRET="your-secret-key"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4️⃣ Setup Docker & PostgreSQL
+Create `docker-compose.yml`:
+```yaml
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
 
-## Learn More
+volumes:
+  pg_data:
+```
+Start the database:
+```bash
+docker-compose up -d
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 5️⃣ Initialize Prisma
+```bash
+npx prisma init
+```
+Edit `prisma/schema.prisma`:
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String @unique
+}
+```
+Run migrations:
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
 
-## Deploy on Vercel
+### 6️⃣ Start the Development Server
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📡 API Routes
+Example API for user management:
+
+**`pages/api/users.ts`**:
+```typescript
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    const users = await prisma.user.findMany();
+    return res.status(200).json(users);
+  }
+  if (req.method === 'POST') {
+    const { name, email } = req.body;
+    const newUser = await prisma.user.create({ data: { name, email } });
+    return res.status(201).json(newUser);
+  }
+  return res.status(405).json({ error: 'Method Not Allowed' });
+}
+```
+
+Test with cURL:
+```bash
+curl -X GET http://localhost:3000/api/users
+```
+
+---
+
+## 🚀 Deployment
+Deploy the project using **Vercel** or **Docker**:
+```bash
+vercel deploy
+```
+
+---
+
+## 📜 License
+This project is licensed under the MIT License.
+
+---
+
+## 🙌 Contributing
+Feel free to open issues or submit PRs to improve this project!
+
+---
+
+Happy coding! 🎉
+
