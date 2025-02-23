@@ -9,12 +9,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        const { title, content } = await request.json()
+        const { title, content , category } = await request.json()
         const newPost = await prisma.post.create({
             data:{
                 title,
-                content
-            }
+                content,
+                category,
+            },
         })
         return Response.json(newPost)
     } catch (error) {
