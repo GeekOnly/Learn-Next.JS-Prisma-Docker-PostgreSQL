@@ -1,20 +1,22 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { use,useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
-const Edit = ({ params }: { params: { id: string } }) => {
+const Edit = ({ params }: { params: Promise<{ id: string }> }) => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [category, setCategory] = useState('')
     const router = useRouter()
-    const {id} = params;
+    const { id } = use(params);
 
     const fetchPost = async (id: Number) => {
         try {
             const response = await axios.get(`/api/posts/${id}`)
             setTitle(response.data.title)
             setContent(response.data.content)
+            setCategory(response.data.category)
         } catch(error) {
             console.log('error:', error)
         }
@@ -31,7 +33,8 @@ const Edit = ({ params }: { params: { id: string } }) => {
         try {
             await axios.put(`/api/posts/${id}`, {
                 title,
-                content
+                content,
+                category
             })
             router.push('/')
         } catch (error) {
@@ -77,6 +80,12 @@ const Edit = ({ params }: { params: { id: string } }) => {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               ></textarea>
             </div>
+               <select value={category} onChange={(e) => setCategory(e.target.value)}>
+               <option value="">Select a category</option>
+               {/* populate categories as needed */}
+               <option value="Tech">Tech</option>
+               <option value="Lifestyle">Lifestyle</option>
+               </select>
             <div>
               <button
                 type="submit"
