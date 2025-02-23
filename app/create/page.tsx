@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 const Create = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [category, setCategory] = useState('')
     const router = useRouter()
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -14,7 +15,8 @@ const Create = () => {
         try {
             await axios.post('/api/posts', {
                 title,
-                content
+                content,
+                category
             })
             router.push('/')
         } catch (error) {
@@ -23,6 +25,7 @@ const Create = () => {
         }
     }
  return (
+  
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold mb-6">Create a New Post</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -59,7 +62,13 @@ const Create = () => {
             onChange={(e) => { setContent(e.target.value)}}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           ></textarea>
-        </div>
+          </div>
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="">Select a category</option>
+            {/* populate categories as needed */}
+            <option value="Tech">Tech</option>
+            <option value="Lifestyle">Lifestyle</option>
+          </select>
         <div>
           <button
             type="submit"
