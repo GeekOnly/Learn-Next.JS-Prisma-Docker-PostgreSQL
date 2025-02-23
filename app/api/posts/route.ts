@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export async function GET() {
     const posts = await prisma.post.findMany()
-    return Response.json({ posts })
+    return Response.json(posts)
 }
 
 export async function POST(request: Request) {
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
                 content
             }
         })
-        return Response.json({ newPost })
+        return Response.json(newPost)
     } catch (error) {
         return new Response(error as BodyInit, { status: 500, })
     }
