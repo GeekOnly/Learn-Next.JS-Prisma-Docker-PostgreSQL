@@ -89,7 +89,8 @@ docker-compose up -d
 
 ## **3. PostgreSQL Setup**
 
-![XP112i8m44NtESMGhVG2Kcf54OgRWdg0q0urq4uqcIwAU7V74fEbMKt-8u-VgGCRp_CqAYIsl80-6CR1-KM32T352xmKoDc0xM4B3J6KPNkkgfYIcL3o2tjBWw0RsUUCWjygULiNU7K-PFZZanTZ5iQmSyGYI_4kvh-EJLQTighpABpViy2ZJ5SxuRTM-bbHkBMIS7qtGQiQgPU5V000](https://github.com/user-attachments/assets/d4496433-8420-46fd-9ec8-fef8609913a4)
+
+![Screenshot 2025-02-23 185350](https://github.com/user-attachments/assets/4ae74e38-d012-43fc-939b-b8f65769a2cf)
 
 
 - **สร้างเซิร์ฟเวอร์ใหม่**:
@@ -115,7 +116,7 @@ docker-compose up -d
 npx prisma init
 ```
 
-![image.png](attachment:fb87e85d-3c1b-4d45-9042-360c3313d775:image.png)
+![XP112i8m44NtESMGhVG2Kcf54OgRWdg0q0urq4uqcIwAU7V74fEbMKt-8u-VgGCRp_CqAYIsl80-6CR1-KM32T352xmKoDc0xM4B3J6KPNkkgfYIcL3o2tjBWw0RsUUCWjygULiNU7K-PFZZanTZ5iQmSyGYI_4kvh-EJLQTighpABpViy2ZJ5SxuRTM-bbHkBMIS7qtGQiQgPU5V000](https://github.com/user-attachments/assets/d4496433-8420-46fd-9ec8-fef8609913a4)
 
 ไฟล์ `prisma/schema.prisma`
 
