@@ -15,7 +15,10 @@ export async function GET(request: NextRequest) {
                 contains: search,
                 mode: 'insensitive',
             }
-        }
+        },
+        orderBy:{
+            createdAt: sort,
+        } as any,
     })
     return Response.json(posts)
 }
