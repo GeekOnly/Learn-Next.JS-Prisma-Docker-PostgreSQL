@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Link from 'next/link'
-import { title } from 'process'
+import Link from 'next/link' 
 
 export default function Home() {
   const [posts, setPosts] = useState([])
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
+  const [categories, setCategories] = useState([])
   const [sort, setSort] = useState('desc')
 
   useEffect(() => {
     fetchPosts()
+    fetchCategories()
   }, [])
 
   const fetchPosts = async () => {
@@ -20,6 +21,15 @@ export default function Home() {
       const query = new URLSearchParams({ category, search, sort}).toString()
       const res = await axios.get(`/api/posts?${query}`)
       setPosts(res.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(`/api/categories`)
+      setCategories(res.data)
     } catch (error) {
       console.error(error)
     }
@@ -56,9 +66,10 @@ export default function Home() {
             value={category}
             onChange={(e)=> setCategory(e.target.value)}
           >
-            <option value="">Select Categories</option>
-            <option value="Tech">Tech</option>
-            <option value="Lifestyle">Lifestyle</option>
+            <option value="">Select Category</option>
+            {categories.map((cat: any) => (
+              <option value={cat.id}>{cat.name}</option>
+            ))}
           </select>
           <select
             className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -112,7 +123,7 @@ export default function Home() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
-                    {post.category}
+                    {post.category.name}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

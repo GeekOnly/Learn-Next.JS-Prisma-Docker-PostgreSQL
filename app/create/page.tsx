@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect,useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
 const Create = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [category, setCategory] = useState('')
+    const [categoryId, setCategoryId] = useState('')
+    const [categories, setCategories] = useState([])
     const router = useRouter()
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -16,7 +17,7 @@ const Create = () => {
             await axios.post('/api/posts', {
                 title,
                 content,
-                category
+                categoryId
             })
             router.push('/')
         } catch (error) {
@@ -24,6 +25,19 @@ const Create = () => {
             alert('something went wrong')
         }
     }
+
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(`/api/categories`)
+        setCategories(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    useEffect(() => {
+       fetchCategories()
+     }, [])
+
  return (
   
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -63,11 +77,11 @@ const Create = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           ></textarea>
           </div>
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             <option value="">Select a category</option>
-            {/* populate categories as needed */}
-            <option value="Tech">Tech</option>
-            <option value="Lifestyle">Lifestyle</option>
+            {categories.map((cat: any) => (
+              <option value={cat.id}>{cat.name}</option>
+            ))}
           </select>
         <div>
           <button
